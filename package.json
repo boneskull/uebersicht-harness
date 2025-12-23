@@ -1,6 +1,6 @@
 {
   "name": "uebersicht-harness",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Debug harness for Übersicht widgets",
   "author": "Christopher Hiller <boneskull@boneskull.com>",
