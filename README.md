@@ -6,11 +6,13 @@
 
 ## Quick Start
 
+This will start a development server you can hit to debug your widgets:
+
 ```bash
 npx uebersicht-harness
 ```
 
-Or install globally:
+You could install globally, if you are so inclined:
 
 ```bash
 npm install -g uebersicht-harness
@@ -23,7 +25,7 @@ uebersicht-harness
 
 By default, widgets are loaded from `~/Library/Application Support/Übersicht/widgets`.
 
-Override with the `UEBERSICHT_WIDGETS_DIR` environment variable:
+If you've changed the location of your widgets, override with the `UEBERSICHT_WIDGETS_DIR` environment variable:
 
 ```bash
 UEBERSICHT_WIDGETS_DIR=/path/to/widgets npx uebersicht-harness
