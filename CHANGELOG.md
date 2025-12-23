@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/boneskull/uebersicht-harness/compare/uebersicht-harness-v0.1.1...uebersicht-harness-v0.1.2) (2025-12-23)
+
+
+### Bug Fixes
+
+* fix package.json for publishing ([a830c40](https://github.com/boneskull/uebersicht-harness/commit/a830c407694602a31a42d578d6bd23414dbb5a15))
+
 ## [0.1.1](https://github.com/boneskull/uebersicht-harness/compare/uebersicht-harness-v0.1.0...uebersicht-harness-v0.1.1) (2025-12-23)
 
 
