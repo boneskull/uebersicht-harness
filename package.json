@@ -1,23 +1,34 @@
 {
   "name": "uebersicht-harness",
   "version": "0.0.0",
-  "description": "Debug harness for Übersicht widgets",
   "type": "module",
+  "description": "Debug harness for Übersicht widgets",
+  "author": "Christopher Hiller <boneskull@boneskull.com>",
+  "license": "BlueOak-1.0.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "bin": {
     "uebersicht-harness": "bin/uebersicht-harness.js"
   },
   "files": [
     "bin",
     "dist",
-    "src",
     "index.html",
+    "src",
     "vite.config.js"
   ],
+  "keywords": [
+    "ubersicht",
+    "übersicht",
+    "uebersicht",
+    "widget",
+    "widgets"
+  ],
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
     "commitlint": "commitlint",
+    "dev": "vite",
     "fix": "run-s -sl fix:*",
     "fix:eslint": "eslint --fix .",
     "fix:markdown": "markdownlint-cli2 --fix \"**/*.md\"",
@@ -32,6 +43,7 @@
     "lint:spelling": "cspell . \"./.*/**\"",
     "lint:types": "tsc --noEmit",
     "prepare": "husky; run-s -s build",
+    "preview": "vite preview",
     "test": "run-s test:runtime",
     "test:runtime": "node --import tsx --test --test-reporter=spec \"test/**/*.test.ts\"",
     "test:watch": "node --import tsx --test --test-reporter=spec --watch \"test/**/*.test.ts\""
@@ -53,7 +65,6 @@
     "@stylistic/eslint-plugin": "5.6.1",
     "@types/node": "24.10.4",
     "@types/react": "19.2.7",
-    "bupkis": "0.14.0",
     "cspell": "9.4.0",
     "eslint": "9.39.2",
     "eslint-plugin-jsonc": "2.21.0",
@@ -71,20 +82,7 @@
     "prettier-plugin-sort-json": "4.1.1",
     "tsx": "4.21.0",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.50.0",
-    "zshy": "0.6.0"
-  },
-  "license": "BlueOak-1.0.0",
-  "author": "Christopher Hiller <boneskull@boneskull.com>",
-  "keywords": [
-    "ubersicht",
-    "übersicht",
-    "uebersicht",
-    "widget",
-    "widgets"
-  ],
-  "engines": {
-    "node": ">=22.0.0"
+    "typescript-eslint": "8.50.0"
   },
   "knip": {
     "ignoreDependencies": [
@@ -92,8 +90,15 @@
     ],
     "ignore": [
       "**/*.d.ts",
-      ".worktrees/**/*"
+      ".worktrees/**/*",
+      "src/widgets.js"
     ],
+    "node": {
+      "entry": [
+        "./bin/uebersicht-harness.js",
+        "./src/uebersicht-shim.js"
+      ]
+    },
     "tags": [
       "-knipignore"
     ]
@@ -114,5 +119,16 @@
       "prettier --write",
       "cspell lint --no-must-find-files"
     ]
+  },
+  "prettier": {
+    "jsdocCommentLineStrategy": "keep",
+    "jsdocPreferCodeFences": true,
+    "plugins": [
+      "prettier-plugin-jsdoc",
+      "prettier-plugin-pkg",
+      "prettier-plugin-sort-json"
+    ],
+    "singleQuote": true,
+    "tsdoc": true
   }
 }

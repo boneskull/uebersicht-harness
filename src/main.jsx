@@ -5,18 +5,18 @@
  */
 
 // React is auto-injected by Vite's jsxInject config
-import { Component } from "react";
-import ReactDOM from "react-dom";
-import { css } from "emotion";
-import WidgetFrame from "./WidgetFrame.jsx";
-import { widgets } from "./widgets.js";
+import { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { css } from 'emotion';
+import WidgetFrame from './WidgetFrame.jsx';
+import { widgets } from './widgets.js';
 
 // Theme colors
 const theme = {
-  cyan: "#00ffff",
-  magenta: "#ff00ff",
-  orange: "#ff9933",
-  green: "#00ff41",
+  cyan: '#00ffff',
+  magenta: '#ff00ff',
+  orange: '#ff9933',
+  green: '#00ff41',
 };
 
 const appStyles = css`
@@ -174,7 +174,7 @@ class HarnessApp extends Component {
           {widgets.map((widget) => (
             <button
               key={widget.id}
-              className={`${filterButtonStyles} ${selectedWidgets.has(widget.id) ? "active" : ""}`}
+              className={`${filterButtonStyles} ${selectedWidgets.has(widget.id) ? 'active' : ''}`}
               onClick={() => this.toggleWidget(widget.id)}
             >
               {widget.id}
@@ -200,10 +200,10 @@ class HarnessApp extends Component {
 }
 
 // Mount the app
-ReactDOM.render(<HarnessApp />, document.getElementById("root"));
+ReactDOM.render(<HarnessApp />, document.getElementById('root'));
 
 // Log startup info
-console.log("🔧 Übersicht Widget Harness");
+console.log('🔧 Übersicht Widget Harness');
 console.log(
   `📦 Loaded ${widgets.length} widgets:`,
   widgets.map((w) => w.id),

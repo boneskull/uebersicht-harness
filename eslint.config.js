@@ -1,37 +1,37 @@
-import jsPlugin from "@eslint/js";
-import stylistic from "@stylistic/eslint-plugin";
-import eslintPluginJsonc from "eslint-plugin-jsonc";
-import perfectionist from "eslint-plugin-perfectionist";
-import { defineConfig } from "eslint/config";
-import globals from "globals";
-import tseslint from "typescript-eslint";
+import jsPlugin from '@eslint/js';
+import stylistic from '@stylistic/eslint-plugin';
+import eslintPluginJsonc from 'eslint-plugin-jsonc';
+import perfectionist from 'eslint-plugin-perfectionist';
+import { defineConfig } from 'eslint/config';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 export default defineConfig(
   jsPlugin.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
-  perfectionist.configs["recommended-natural"],
+  perfectionist.configs['recommended-natural'],
   {
     languageOptions: {
       parserOptions: {
-        extraFileExtensions: [".json5", ".jsonc"],
-        project: "tsconfig.json",
+        extraFileExtensions: ['.json5', '.jsonc'],
+        project: 'tsconfig.json',
         tsconfigRootDir: import.meta.dirname,
       },
     },
   },
   {
-    files: ["**/*.ts", "**/*.js"],
+    files: ['**/*.ts', '**/*.js'],
     languageOptions: {
       globals: globals.node,
     },
     plugins: {
-      "@perfectionist": perfectionist,
-      "@stylistic": stylistic,
+      '@perfectionist': perfectionist,
+      '@stylistic': stylistic,
     },
     rules: {
-      "@perfectionist/sort-classes": ["error", { partitionByNewLine: true }],
-      "@stylistic/lines-around-comment": [
-        "warn",
+      '@perfectionist/sort-classes': ['error', { partitionByNewLine: true }],
+      '@stylistic/lines-around-comment': [
+        'warn',
         {
           afterBlockComment: false,
           allowArrayStart: true,
@@ -42,93 +42,93 @@ export default defineConfig(
           beforeBlockComment: false,
         },
       ],
-      "@stylistic/lines-between-class-members": ["error", "always"],
-      "@stylistic/semi": "error",
+      '@stylistic/lines-between-class-members': ['error', 'always'],
+      '@stylistic/semi': 'error',
 
-      "@typescript-eslint/consistent-type-exports": [
-        "error",
+      '@typescript-eslint/consistent-type-exports': [
+        'error',
         { fixMixedExportsWithInlineTypeSpecifier: true },
       ],
 
-      "@typescript-eslint/consistent-type-imports": [
-        "error",
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
         {
           disallowTypeAnnotations: true,
-          fixStyle: "inline-type-imports",
-          prefer: "type-imports",
+          fixStyle: 'inline-type-imports',
+          prefer: 'type-imports',
         },
       ],
 
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-invalid-void-type": "off",
-      "@typescript-eslint/no-non-null-assertion": "off",
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-invalid-void-type': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
 
-      "@typescript-eslint/no-unnecessary-boolean-literal-compare": [
-        "error",
+      '@typescript-eslint/no-unnecessary-boolean-literal-compare': [
+        'error',
         {
           allowComparingNullableBooleansToFalse: true,
           allowComparingNullableBooleansToTrue: true,
         },
       ],
 
-      "@typescript-eslint/no-unnecessary-condition": "off",
-      "@typescript-eslint/no-unsafe-assignment": "warn",
+      '@typescript-eslint/no-unnecessary-condition': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'warn',
 
-      "@typescript-eslint/no-unused-vars": [
-        "error",
+      '@typescript-eslint/no-unused-vars': [
+        'error',
         {
-          argsIgnorePattern: "^_",
-          caughtErrorsIgnorePattern: "^_",
-          destructuredArrayIgnorePattern: "^_",
+          argsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
           ignoreRestSiblings: true,
-          varsIgnorePattern: "^_",
+          varsIgnorePattern: '^_',
         },
       ],
 
-      "@typescript-eslint/require-await": "off",
-      "@typescript-eslint/restrict-template-expressions": "off",
+      '@typescript-eslint/require-await': 'off',
+      '@typescript-eslint/restrict-template-expressions': 'off',
 
-      "@typescript-eslint/unified-signatures": [
-        "error",
+      '@typescript-eslint/unified-signatures': [
+        'error',
         {
           ignoreDifferentlyNamedParameters: true,
         },
       ],
 
-      curly: "error",
-      "func-style": ["error", "expression"],
-      "new-cap": ["error", { capIsNew: true, newIsCap: true }],
-      "no-constructor-return": "error",
-      "no-empty": ["error", { allowEmptyCatch: true }],
-      "no-self-compare": "error",
-      "object-shorthand": ["error", "always"],
-      "prefer-arrow-callback": "error",
-      semi: "error",
+      curly: 'error',
+      'func-style': ['error', 'expression'],
+      'new-cap': ['error', { capIsNew: true, newIsCap: true }],
+      'no-constructor-return': 'error',
+      'no-empty': ['error', { allowEmptyCatch: true }],
+      'no-self-compare': 'error',
+      'object-shorthand': ['error', 'always'],
+      'prefer-arrow-callback': 'error',
+      semi: 'error',
     },
   },
   {
-    files: ["test/**/*.test.ts", "test/**/*.test.js"],
+    files: ['test/**/*.test.ts', 'test/**/*.test.js'],
     rules: {
-      "@typescript-eslint/no-floating-promises": "off",
-      "@typescript-eslint/no-unsafe-assignment": "off",
-      "@typescript-eslint/no-unsafe-member-access": "off",
-      "@typescript-eslint/unbound-method": "off",
+      '@typescript-eslint/no-floating-promises': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/unbound-method': 'off',
     },
   },
-  /** @type {any} */ (eslintPluginJsonc.configs["flat/prettier"][0]),
+  /** @type {any} */ (eslintPluginJsonc.configs['flat/prettier'][0]),
   /** @type {any} */ ({
-    ...eslintPluginJsonc.configs["flat/prettier"][1],
+    ...eslintPluginJsonc.configs['flat/prettier'][1],
     extends: [tseslint.configs.disableTypeChecked],
   }),
-  /** @type {any} */ (eslintPluginJsonc.configs["flat/prettier"][2]),
+  /** @type {any} */ (eslintPluginJsonc.configs['flat/prettier'][2]),
   {
     ignores: [
-      "**/docs/**",
-      "**/dist/**",
-      "coverage",
-      "**/*.snapshot",
-      "**/.tmp/**/*",
-      ".worktrees/**/*",
+      '**/docs/**',
+      '**/dist/**',
+      'coverage',
+      '**/*.snapshot',
+      '**/.tmp/**/*',
+      '.worktrees/**/*',
     ],
   },
 );

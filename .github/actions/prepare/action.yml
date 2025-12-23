@@ -3,9 +3,9 @@ description: Prepares the repo for a typical CI job
 name: Prepare
 inputs:
   node-version: # id of input
-    description: "Node.js version"
+    description: 'Node.js version'
     required: false
-    default: "24"
+    default: '24'
 
 runs:
   steps:

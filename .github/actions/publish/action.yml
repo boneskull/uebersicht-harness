@@ -3,7 +3,7 @@ description: Publish to npm
 
 inputs:
   token:
-    description: "npm token"
+    description: 'npm token'
     required: true
 
 runs:
