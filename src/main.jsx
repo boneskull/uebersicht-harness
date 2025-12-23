@@ -4,6 +4,44 @@
  * Renders all widgets in a debuggable browser environment.
  */
 
+// ============================================================================
+// CORS Proxy: Intercept fetch calls to localhost and route through Vite proxy
+// ============================================================================
+// Übersicht is a desktop app - no browser security restrictions apply.
+// Widgets can freely fetch from localhost:8080, localhost:3000, etc.
+// In our browser-based harness, we need to proxy these to bypass CORS.
+//
+// This interceptor rewrites: fetch('http://localhost:8080/token')
+// To instead call:           fetch('/proxy/8080/token')
+// Which Vite then proxies to the actual localhost:8080 server.
+// ============================================================================
+const LOCALHOST_PATTERN = /^https?:\/\/localhost:(\d+)(\/.*)?$/;
+const originalFetch = window.fetch;
+
+window.fetch = function (input, init) {
+  let url = typeof input === 'string' ? input : input instanceof Request ? input.url : String(input);
+  
+  const match = url.match(LOCALHOST_PATTERN);
+  if (match) {
+    const port = match[1];
+    const path = match[2] || '';
+    const proxyUrl = `/proxy/${port}${path}`;
+    
+    console.log(`[harness:cors-proxy] Intercepting: ${url} -> ${proxyUrl}`);
+    
+    // If input was a Request object, we need to create a new one with the modified URL
+    if (input instanceof Request) {
+      input = new Request(proxyUrl, input);
+    } else {
+      input = proxyUrl;
+    }
+  }
+  
+  return originalFetch.call(window, input, init);
+};
+
+console.log('[harness:cors-proxy] Fetch interceptor installed - localhost requests will be proxied');
+
 // React is auto-injected by Vite's jsxInject config
 import { Component } from 'react';
 import ReactDOM from 'react-dom';

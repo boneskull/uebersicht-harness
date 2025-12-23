@@ -11,6 +11,50 @@ const WIDGETS_DIR =
 
 console.log(`[vite] Using widgets directory: ${WIDGETS_DIR}`);
 
+/**
+ * Build proxy configuration for CORS bypass.
+ *
+ * Widgets running in real Übersicht can make fetch() calls to any localhost
+ * endpoint without CORS restrictions (it's a desktop app, not a browser). In
+ * our browser-based harness, we need to proxy these requests through Vite to
+ * bypass CORS.
+ *
+ * The harness's fetch interceptor (in main.jsx) automatically rewrites:
+ * fetch('http://localhost:8080/token') -> fetch('/proxy/8080/token')
+ *
+ * This config sets up the corresponding Vite proxies: /proxy/8080/* ->
+ * http://localhost:8080/* /proxy/3000/* -> http://localhost:3000/* etc.
+ *
+ * Set UEBERSICHT_PROXY_PORTS to customize which ports are proxied. Default:
+ * 3000,4000,5000,8000,8080,9000
+ */
+const buildProxyConfig = () => {
+  const proxy = {};
+
+  // Common development ports - configurable via env var
+  const defaultPorts = '3000,4000,5000,8000,8080,9000';
+  const portsStr = process.env.UEBERSICHT_PROXY_PORTS || defaultPorts;
+  const ports = portsStr
+    .split(',')
+    .map((p) => p.trim())
+    .filter(Boolean);
+
+  for (const port of ports) {
+    proxy[`/proxy/${port}`] = {
+      changeOrigin: true,
+      /** @param {string} reqPath */
+      rewrite: (reqPath) => reqPath.replace(`/proxy/${port}`, ''),
+      target: `http://localhost:${port}`,
+    };
+  }
+
+  console.log(
+    `[vite] CORS proxy enabled for localhost ports: ${ports.join(', ')}`,
+  );
+
+  return proxy;
+};
+
 export default defineConfig({
   // Build settings - preserve names for debugging
   build: {
@@ -61,5 +105,7 @@ export default defineConfig({
         WIDGETS_DIR,
       ],
     },
+    // Proxy configuration for bypassing CORS when widgets fetch from local servers
+    proxy: buildProxyConfig(),
   },
 });
