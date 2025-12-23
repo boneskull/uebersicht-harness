@@ -5,8 +5,14 @@
 ## Quick Start
 
 ```bash
-npm install
-npm run dev
+npx uebersicht-harness
+```
+
+Or install globally:
+
+```bash
+npm install -g uebersicht-harness
+uebersicht-harness
 ```
 
 ## Configuration
@@ -18,7 +24,7 @@ By default, widgets are loaded from `~/Library/Application Support/Übersicht/wi
 Override with the `UEBERSICHT_WIDGETS_DIR` environment variable:
 
 ```bash
-UEBERSICHT_WIDGETS_DIR=/path/to/widgets npm run dev
+UEBERSICHT_WIDGETS_DIR=/path/to/widgets npx uebersicht-harness
 ```
 
 ### Widget Requirements

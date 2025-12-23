@@ -5,6 +5,7 @@
 This is a browser-based debug harness for [Übersicht](http://tracesof.net/uebersicht/) desktop widgets. It allows widget development with hot reload instead of relying on Übersicht's slower refresh cycle.
 
 The harness:
+
 - Auto-discovers widgets from the configured widgets directory
 - Renders them in isolated frames with simulated command output
 - Provides a shim for the `uebersicht` module that widgets import from
@@ -22,17 +23,14 @@ Widgets must work in Übersicht's environment. Upgrading these packages would cr
 
 ## Architecture
 
-| File | Purpose |
-|------|---------|
-| `vite.config.js` | Vite config with `@widgets` alias pointing to widgets directory |
-| `src/main.jsx` | App entry point, renders all discovered widgets |
-| `src/widgets.js` | Auto-discovers widgets via `import.meta.glob` |
-| `src/WidgetFrame.jsx` | Renders individual widgets with debug controls |
-| `src/uebersicht-shim.js` | Mock `uebersicht` module (run, request, css, styled) |
+| File                     | Purpose                                                         |
+| ------------------------ | --------------------------------------------------------------- |
+| `vite.config.js`         | Vite config with `@widgets` alias pointing to widgets directory |
+| `src/main.jsx`           | App entry point, renders all discovered widgets                 |
+| `src/widgets.js`         | Auto-discovers widgets via `import.meta.glob`                   |
+| `src/WidgetFrame.jsx`    | Renders individual widgets with debug controls                  |
+| `src/uebersicht-shim.js` | Mock `uebersicht` module (run, request, css, styled)            |
 
 ## Configuration
 
 Widgets directory is configurable via `UEBERSICHT_WIDGETS_DIR` env var. Defaults to `~/Library/Application Support/Übersicht/widgets`.
-
-
-

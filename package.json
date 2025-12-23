@@ -3,22 +3,76 @@
   "version": "0.0.0",
   "description": "Debug harness for Übersicht widgets",
   "type": "module",
+  "bin": {
+    "uebersicht-harness": "./bin/uebersicht-harness.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "src",
+    "index.html",
+    "vite.config.js"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "commitlint": "commitlint",
+    "fix": "run-s -sl fix:*",
+    "fix:eslint": "eslint --fix .",
+    "fix:markdown": "markdownlint-cli2 --fix \"**/*.md\"",
+    "fix:pkg": "npm pkg fix",
+    "fix:prettier": "prettier --write . && markdownlint-cli2 --fix \"**/*.md\"",
+    "lint": "run-p -sl --aggregate-output lint:*",
+    "lint-staged": "lint-staged",
+    "lint:eslint": "eslint .",
+    "lint:knip": "knip",
+    "lint:markdown": "markdownlint-cli2 \"**/*.md\"",
+    "lint:prettier": "prettier --check .",
+    "lint:spelling": "cspell . \"./.*/**\"",
+    "lint:types": "tsc --noEmit",
+    "prepare": "husky; run-s -s build",
+    "test": "run-s test:runtime",
+    "test:runtime": "node --import tsx --test --test-reporter=spec \"test/**/*.test.ts\"",
+    "test:watch": "node --import tsx --test --test-reporter=spec --watch \"test/**/*.test.ts\""
   },
   "dependencies": {
+    "@emotion/babel-plugin": "^11.13.5",
     "@emotion/core": "10.3.1",
     "@emotion/styled": "10.3.0",
+    "@vitejs/plugin-react": "^4.3.0",
     "emotion": "10.0.27",
     "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "react-dom": "16.14.0",
+    "vite": "^5.4.0"
   },
   "devDependencies": {
-    "@emotion/babel-plugin": "^11.13.5",
-    "@vitejs/plugin-react": "^4.3.0",
-    "vite": "^5.4.0"
+    "@commitlint/cli": "20.2.0",
+    "@commitlint/config-conventional": "20.2.0",
+    "@eslint/js": "9.39.2",
+    "@stylistic/eslint-plugin": "5.6.1",
+    "@types/node": "24.10.4",
+    "@types/react": "19.2.7",
+    "bupkis": "0.14.0",
+    "cspell": "9.4.0",
+    "eslint": "9.39.2",
+    "eslint-plugin-jsonc": "2.21.0",
+    "eslint-plugin-perfectionist": "5.0.0",
+    "globals": "16.5.0",
+    "husky": "9.1.7",
+    "knip": "5.75.2",
+    "lint-staged": "16.2.7",
+    "markdownlint-cli2": "0.20.0",
+    "markdownlint-cli2-formatter-pretty": "0.0.9",
+    "npm-run-all2": "8.0.4",
+    "prettier": "3.7.4",
+    "prettier-plugin-jsdoc": "1.8.0",
+    "prettier-plugin-pkg": "0.21.2",
+    "prettier-plugin-sort-json": "4.1.1",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.50.0",
+    "zshy": "0.6.0"
   },
   "license": "BlueOak-1.0.0",
   "author": "Christopher Hiller <boneskull@boneskull.com>",
@@ -28,5 +82,37 @@
     "uebersicht",
     "widget",
     "widgets"
-  ]
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "knip": {
+    "ignoreDependencies": [
+      "markdownlint-cli2-formatter-pretty"
+    ],
+    "ignore": [
+      "**/*.d.ts",
+      ".worktrees/**/*"
+    ],
+    "tags": [
+      "-knipignore"
+    ]
+  },
+  "lint-staged": {
+    "*.{ts,js,yml,json5}": [
+      "eslint --fix",
+      "prettier --write",
+      "cspell lint --no-must-find-files"
+    ],
+    "**/!(package-lock).json": [
+      "eslint --fix",
+      "prettier --write",
+      "cspell lint --no-must-find-files"
+    ],
+    "*.md": [
+      "markdownlint-cli2 --fix",
+      "prettier --write",
+      "cspell lint --no-must-find-files"
+    ]
+  }
 }
