@@ -3,6 +3,10 @@
   "version": "0.1.1",
   "type": "module",
   "description": "Debug harness for Übersicht widgets",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boneskull/uebersicht-harness.git"
+  },
   "author": "Christopher Hiller <boneskull@boneskull.com>",
   "license": "BlueOak-1.0.0",
   "engines": {
