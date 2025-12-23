@@ -1,6 +1,6 @@
 /**
  * WidgetFrame - Debug wrapper for Übersicht widgets
- * 
+ *
  * Provides:
  * - Widget rendering with className applied
  * - Command output simulation
@@ -10,18 +10,18 @@
  */
 
 // React is auto-injected by Vite's jsxInject config
-import { Component } from 'react';
-import { css } from 'emotion';
+import { Component } from "react";
+import { css } from "emotion";
 
 // Theme colors matching the Retro Synth Matrix aesthetic
 const theme = {
-  cyan: '#00ffff',
-  magenta: '#ff00ff',
-  orange: '#ff9933',
-  green: '#00ff41',
-  red: '#ff0066',
-  background: 'rgba(0, 0, 0, 0.85)',
-  border: 'rgba(255, 0, 255, 0.4)',
+  cyan: "#00ffff",
+  magenta: "#ff00ff",
+  orange: "#ff9933",
+  green: "#00ff41",
+  red: "#ff0066",
+  background: "rgba(0, 0, 0, 0.85)",
+  border: "rgba(255, 0, 255, 0.4)",
 };
 
 const frameStyles = css`
@@ -65,12 +65,12 @@ const buttonStyles = css`
   font-size: 11px;
   letter-spacing: 0.5px;
   transition: all 0.2s;
-  
+
   &:hover {
     background: ${theme.cyan};
     color: #000;
   }
-  
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -80,7 +80,7 @@ const buttonStyles = css`
 const contentStyles = css`
   padding: 20px;
   position: relative;
-  
+
   /* Neutralize absolute positioning from widgets - they render inline in the harness */
   & > div {
     position: relative !important;
@@ -105,15 +105,15 @@ const textareaStyles = css`
   border: 1px solid ${theme.border};
   border-radius: 4px;
   color: ${theme.green};
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 12px;
   padding: 10px;
   resize: vertical;
-  
+
   &::placeholder {
     color: rgba(255, 153, 51, 0.5);
   }
-  
+
   &:focus {
     outline: none;
     border-color: ${theme.cyan};
@@ -188,7 +188,7 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error('[WidgetFrame] Render error:', error, errorInfo);
+    console.error("[WidgetFrame] Render error:", error, errorInfo);
     this.setState({ errorInfo });
   }
 
@@ -198,9 +198,7 @@ class ErrorBoundary extends Component {
         <div className={errorStyles}>
           <h3 className={errorTitleStyles}>Widget Render Error</h3>
           <p className={errorMessageStyles}>{this.state.error?.message}</p>
-          <pre className={errorStackStyles}>
-            {this.state.error?.stack}
-          </pre>
+          <pre className={errorStackStyles}>{this.state.error?.stack}</pre>
         </div>
       );
     }
@@ -215,36 +213,40 @@ class ErrorBoundary extends Component {
 export default class WidgetFrame extends Component {
   constructor(props) {
     super(props);
-    
+
     const { widget } = props;
-    
+
     this.state = {
       // Widget state follows Übersicht's updateState pattern
-      widgetState: widget.initialState || { output: '', error: null },
+      widgetState: widget.initialState || { output: "", error: null },
       // Debug panel state
       showDebug: false,
-      simulatedOutput: '',
+      simulatedOutput: "",
       refreshCount: 0,
     };
-    
+
     this.refreshInterval = null;
   }
 
   componentDidMount() {
     const { widget } = this.props;
-    
+
     // DON'T auto-run commands - they'll fail without real output
     // User should paste simulated output via Debug panel
     if (widget.command) {
-      console.log(`[${widget.id}] Has command - use Debug panel to provide simulated output`);
+      console.log(
+        `[${widget.id}] Has command - use Debug panel to provide simulated output`,
+      );
     }
-    
+
     // Set up refresh interval if specified
     if (widget.refreshFrequency && widget.refreshFrequency > 0) {
       // Don't actually auto-refresh in debug mode - let user control it
-      console.log(`[${widget.id}] Would refresh every ${widget.refreshFrequency}ms`);
+      console.log(
+        `[${widget.id}] Would refresh every ${widget.refreshFrequency}ms`,
+      );
     }
-    
+
     // Call widget's init if it exists
     if (widget.init) {
       try {
@@ -266,9 +268,9 @@ export default class WidgetFrame extends Component {
    */
   dispatch = (event) => {
     const { widget } = this.props;
-    
+
     console.log(`[${widget.id}] dispatch:`, event);
-    
+
     try {
       const updateState = widget.updateState || defaultUpdateState;
       const nextState = updateState(event, this.state.widgetState);
@@ -276,7 +278,7 @@ export default class WidgetFrame extends Component {
     } catch (err) {
       console.error(`[${widget.id}] updateState error:`, err);
       this.setState({
-        widgetState: { ...this.state.widgetState, error: err.message }
+        widgetState: { ...this.state.widgetState, error: err.message },
       });
     }
   };
@@ -286,20 +288,20 @@ export default class WidgetFrame extends Component {
    */
   executeCommand = async () => {
     const { widget } = this.props;
-    
+
     if (!widget.command) return;
-    
-    const commandStr = typeof widget.command === 'function' 
-      ? 'function' 
-      : widget.command;
-    
+
+    const commandStr =
+      typeof widget.command === "function" ? "function" : widget.command;
+
     console.log(`[${widget.id}] Executing command:`, commandStr);
-    
+
     // In the harness, commands don't actually run - use simulated output
     // This dispatch mimics what Übersicht does after command execution
     this.dispatch({
-      type: 'UB/COMMAND_RAN',
-      output: this.state.simulatedOutput || `[Simulated output for: ${widget.id}]`,
+      type: "UB/COMMAND_RAN",
+      output:
+        this.state.simulatedOutput || `[Simulated output for: ${widget.id}]`,
     });
   };
 
@@ -315,17 +317,17 @@ export default class WidgetFrame extends Component {
    */
   applySimulatedOutput = () => {
     this.dispatch({
-      type: 'UB/COMMAND_RAN',
+      type: "UB/COMMAND_RAN",
       output: this.state.simulatedOutput,
     });
-    this.setState(s => ({ refreshCount: s.refreshCount + 1 }));
+    this.setState((s) => ({ refreshCount: s.refreshCount + 1 }));
   };
 
   /**
    * Toggle debug panel
    */
   toggleDebug = () => {
-    this.setState(s => ({ showDebug: !s.showDebug }));
+    this.setState((s) => ({ showDebug: !s.showDebug }));
   };
 
   /**
@@ -333,18 +335,21 @@ export default class WidgetFrame extends Component {
    */
   forceRefresh = () => {
     this.executeCommand();
-    this.setState(s => ({ refreshCount: s.refreshCount + 1 }));
+    this.setState((s) => ({ refreshCount: s.refreshCount + 1 }));
   };
 
   render() {
     const { widget } = this.props;
-    const { widgetState, showDebug, simulatedOutput, refreshCount } = this.state;
-    
+    const { widgetState, showDebug, simulatedOutput, refreshCount } =
+      this.state;
+
     // Build the className for the widget content area
-    const widgetClassName = widget.className 
-      ? css`${widget.className}`
-      : '';
-    
+    const widgetClassName = widget.className
+      ? css`
+          ${widget.className}
+        `
+      : "";
+
     return (
       <div className={frameStyles}>
         {/* Header with controls */}
@@ -355,11 +360,11 @@ export default class WidgetFrame extends Component {
               ↻ Refresh
             </button>
             <button className={buttonStyles} onClick={this.toggleDebug}>
-              {showDebug ? '▼ Hide Debug' : '▶ Debug'}
+              {showDebug ? "▼ Hide Debug" : "▶ Debug"}
             </button>
           </div>
         </div>
-        
+
         {/* Widget content */}
         <div className={contentStyles}>
           <ErrorBoundary key={refreshCount}>
@@ -368,7 +373,7 @@ export default class WidgetFrame extends Component {
             </div>
           </ErrorBoundary>
         </div>
-        
+
         {/* Debug panel */}
         {showDebug && (
           <div className={debugPanelStyles}>
@@ -377,17 +382,17 @@ export default class WidgetFrame extends Component {
               className={textareaStyles}
               value={simulatedOutput}
               onChange={this.handleOutputChange}
-              placeholder={`Paste the output of this widget's command here...\n\nTo get real output, run in terminal:\n${typeof widget.command === 'string' ? widget.command.trim().slice(0, 200) : '(function-based command)'}`}
+              placeholder={`Paste the output of this widget's command here...\n\nTo get real output, run in terminal:\n${typeof widget.command === "string" ? widget.command.trim().slice(0, 200) : "(function-based command)"}`}
             />
-            <button 
-              className={buttonStyles} 
+            <button
+              className={buttonStyles}
               onClick={this.applySimulatedOutput}
-              style={{ marginTop: '10px' }}
+              style={{ marginTop: "10px" }}
             >
               Apply Output
             </button>
-            
-            <label className={labelStyles} style={{ marginTop: '16px' }}>
+
+            <label className={labelStyles} style={{ marginTop: "16px" }}>
               Current Widget State
             </label>
             <pre className={stateDisplayStyles}>
@@ -404,13 +409,12 @@ export default class WidgetFrame extends Component {
  * Default updateState (matches Übersicht's default)
  */
 function defaultUpdateState(event, previousState) {
-  if (event.type === 'UB/COMMAND_RAN') {
-    return { 
-      ...previousState, 
-      output: event.output, 
-      error: event.error 
+  if (event.type === "UB/COMMAND_RAN") {
+    return {
+      ...previousState,
+      output: event.output,
+      error: event.error,
     };
   }
   return previousState;
 }
-

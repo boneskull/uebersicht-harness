@@ -4,7 +4,7 @@
   "description": "Debug harness for Übersicht widgets",
   "type": "module",
   "bin": {
-    "uebersicht-harness": "./bin/uebersicht-harness.js"
+    "uebersicht-harness": "bin/uebersicht-harness.js"
   },
   "files": [
     "bin",
