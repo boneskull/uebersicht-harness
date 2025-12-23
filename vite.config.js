@@ -29,6 +29,7 @@ console.log(`[vite] Using widgets directory: ${WIDGETS_DIR}`);
  * 3000,4000,5000,8000,8080,9000
  */
 const buildProxyConfig = () => {
+  /** @type {Record<string, import('vite').ProxyOptions>} */
   const proxy = {};
 
   // Common development ports - configurable via env var
